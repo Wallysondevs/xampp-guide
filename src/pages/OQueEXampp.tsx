@@ -11,6 +11,37 @@ export default function OQueEXampp() {
       difficulty="iniciante"
       timeToRead="6 min"
     >
+      <AlertBox type="info" title="Pré-requisitos">
+        Nenhum. Este é o primeiro capítulo. Você só precisa estar disposto a ler
+        com calma e ter um computador com Windows, Linux ou macOS rodando uma
+        versão recente (últimos 5 anos).
+      </AlertBox>
+
+      <h2>Glossário rápido — palavras que vão aparecer o tempo todo</h2>
+      <p>
+        Antes de tudo, três palavras-chave. Elas se repetem em quase todas as
+        páginas, então vale fixar agora:
+      </p>
+      <p>
+        <strong>Servidor web</strong> — é um programa que fica esperando
+        requisições HTTP (do navegador) e devolve uma resposta (HTML, JSON,
+        imagem). O Apache é um servidor web. Não confunda com "servidor" no
+        sentido de máquina — aqui é o software.
+      </p>
+      <p>
+        <strong>localhost</strong> — apelido do seu próprio computador na rede.
+        Equivale a <code>127.0.0.1</code>. Quando você acessa{" "}
+        <code>http://localhost</code>, o navegador conversa com programas que
+        estão rodando na sua máquina, não na internet.
+      </p>
+      <p>
+        <strong>Porta</strong> — um número que identifica um serviço dentro de
+        uma máquina. O Apache usa a porta <code>80</code> (HTTP), o MariaDB usa a{" "}
+        <code>3306</code>, o phpMyAdmin "vive" dentro do Apache na porta 80.
+        Pense em portas como apartamentos no mesmo prédio (IP) — cada um
+        atende um inquilino diferente.
+      </p>
+
       <h2>O nome XAMPP, letra por letra</h2>
       <p>
         XAMPP é um acrônimo. Cada letra representa um software que vem dentro

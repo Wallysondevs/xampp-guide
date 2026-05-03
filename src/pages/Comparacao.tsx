@@ -10,6 +10,28 @@ export default function Comparacao() {
       difficulty="iniciante"
       timeToRead="5 min"
     >
+      <AlertBox type="info" title="Pré-requisitos">
+        Nenhum. Este capítulo é teórico — vai te ajudar a decidir SE o XAMPP é
+        a escolha certa para você antes mesmo de instalar.
+      </AlertBox>
+
+      <h2>Glossário rápido</h2>
+      <p>
+        <strong>Stack</strong> — conjunto de tecnologias usadas juntas. LAMP =
+        Linux + Apache + MySQL + PHP. WAMP = Windows no lugar do Linux. MAMP =
+        macOS no lugar do Linux. XAMPP = "X" de cross-platform (qualquer SO).
+      </p>
+      <p>
+        <strong>Container</strong> — uma forma moderna de empacotar uma
+        aplicação isolada do resto do sistema. Docker usa containers. Mais
+        leve que uma máquina virtual, mais isolado que o XAMPP.
+      </p>
+      <p>
+        <strong>Servidor embutido</strong> — o próprio PHP, a partir da versão
+        5.4, traz um mini-servidor (<code>php -S localhost:8000</code>) que
+        serve para testar coisas pequenas sem instalar nada.
+      </p>
+
       <p>
         Todos esses projetos resolvem o mesmo problema: rodar Apache + PHP +
         MySQL no seu computador. Mas cada um tem um foco diferente.

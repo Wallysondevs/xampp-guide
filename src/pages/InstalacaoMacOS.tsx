@@ -11,6 +11,31 @@ export default function InstalacaoMacOS() {
       difficulty="intermediario"
       timeToRead="7 min"
     >
+      <AlertBox type="info" title="Pré-requisitos">
+        macOS 10.15 (Catalina) ou superior, <strong>5 GB livres</strong> em
+        disco, conta com permissão de administrador. Em Macs com chip Apple
+        Silicon (M1/M2/M3), o Rosetta 2 também é necessário (instalação
+        explicada a seguir).
+      </AlertBox>
+
+      <h2>Glossário rápido</h2>
+      <p>
+        <strong>Rosetta 2</strong> — camada de tradução que permite a Macs
+        com chip Apple Silicon (ARM) rodar programas compilados para Intel
+        (x86_64). O XAMPP para macOS ainda é Intel, então Rosetta é
+        obrigatório em Macs M1/M2/M3.
+      </p>
+      <p>
+        <strong>.dmg</strong> — formato de imagem de disco do macOS. Você
+        clica duas vezes, ele "monta" como um drive virtual e revela o
+        instalador dentro.
+      </p>
+      <p>
+        <strong>/Applications/XAMPP</strong> — pasta padrão onde o XAMPP se
+        instala no macOS. Os arquivos do servidor ficam em{" "}
+        <code>/Applications/XAMPP/xamppfiles/</code>.
+      </p>
+
       <AlertBox type="info" title="Mac com chip M1/M2/M3?">
         O XAMPP para macOS é compilado para arquitetura Intel (x86_64). Em
         Macs com Apple Silicon ele <strong>roda perfeitamente</strong>, mas

@@ -11,6 +11,30 @@ export default function InstalacaoWindows() {
       difficulty="iniciante"
       timeToRead="8 min"
     >
+      <AlertBox type="info" title="Pré-requisitos">
+        Windows 10 ou 11 (32 ou 64 bits), <strong>5 GB livres</strong> em disco
+        e uma conta com permissão de administrador. Sem isso o XAMPP até
+        instala, mas o Apache pode falhar em iniciar como serviço.
+      </AlertBox>
+
+      <h2>Glossário rápido</h2>
+      <p>
+        <strong>Instalador</strong> — o arquivo <code>.exe</code> que você baixa
+        e que faz todo o trabalho de copiar arquivos, criar atalhos e registrar
+        serviços no Windows.
+      </p>
+      <p>
+        <strong>Serviço do Windows</strong> — um programa que roda em segundo
+        plano, sem precisar de janela aberta. Você pode configurar o Apache e o
+        MariaDB para iniciarem automaticamente assim que o Windows liga.
+      </p>
+      <p>
+        <strong>UAC (User Account Control)</strong> — sistema de proteção do
+        Windows que pede confirmação para programas alterarem áreas sensíveis
+        (como <code>C:\Program Files</code>). É por isso que vamos instalar
+        em <code>C:\xampp</code>, fora da área protegida.
+      </p>
+
       <h2>1. Baixe o instalador oficial</h2>
       <p>
         Acesse{" "}

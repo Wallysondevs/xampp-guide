@@ -11,6 +11,39 @@ export default function Composer() {
       difficulty="iniciante"
       timeToRead="7 min"
     >
+      <AlertBox type="info" title="Pré-requisitos">
+        XAMPP instalado (precisamos do PHP do XAMPP). Acesso ao terminal/CMD.
+        Conhecer o conceito de "PATH" (a variável que diz ao sistema onde
+        procurar executáveis) ajuda — explico abaixo se você não conhece.
+      </AlertBox>
+
+      <h2>Glossário rápido</h2>
+      <p>
+        <strong>Dependência</strong> — qualquer biblioteca de terceiros que
+        seu código precisa para funcionar. Se você usa Guzzle para fazer
+        requisições HTTP, o Guzzle é uma dependência do seu projeto.
+      </p>
+      <p>
+        <strong>Pacote</strong> — uma biblioteca PHP empacotada e publicada no{" "}
+        <a href="https://packagist.org" target="_blank" rel="noreferrer">Packagist</a>{" "}
+        (o "repositório" de pacotes do Composer). Cada pacote tem um nome no
+        formato <code>vendor/nome</code>, como <code>guzzlehttp/guzzle</code>.
+      </p>
+      <p>
+        <strong>composer.json</strong> — arquivo na raiz do seu projeto que
+        lista quais pacotes você quer e em quais versões. É o "Wishlist" do
+        projeto.
+      </p>
+      <p>
+        <strong>composer.lock</strong> — arquivo gerado automaticamente que
+        congela a versão exata de cada pacote instalado. Garante que toda
+        máquina que rode <code>composer install</code> use as mesmas versões.
+      </p>
+      <p>
+        <strong>vendor/</strong> — pasta onde o Composer baixa todos os
+        pacotes. Nunca deve ir para o Git (já vem no <code>.gitignore</code>).
+      </p>
+
       <h2>O que é o Composer</h2>
       <p>
         Composer é o npm/pip/cargo do PHP. Você define as bibliotecas que seu

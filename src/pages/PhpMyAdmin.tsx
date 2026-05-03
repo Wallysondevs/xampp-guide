@@ -11,6 +11,30 @@ export default function PhpMyAdmin() {
       difficulty="iniciante"
       timeToRead="7 min"
     >
+      <AlertBox type="info" title="Pré-requisitos">
+        Apache e MySQL/MariaDB rodando no painel do XAMPP (ambos com nome em
+        verde). Se algum estiver vermelho, volte ao capítulo de{" "}
+        <a href="#/portas-conflitos">conflitos de portas</a>.
+      </AlertBox>
+
+      <h2>Glossário rápido</h2>
+      <p>
+        <strong>SGBD</strong> (Sistema Gerenciador de Banco de Dados) — o
+        software que armazena e organiza os dados. MariaDB e MySQL são SGBDs.
+        O phpMyAdmin <em>não</em> é um banco — é só uma <strong>interface
+        web</strong> para conversar com o banco.
+      </p>
+      <p>
+        <strong>Schema</strong> / <strong>Database</strong> — é o "container"
+        que agrupa tabelas relacionadas. Cada projeto seu (loja, blog, sistema
+        da faculdade) costuma ter o próprio database.
+      </p>
+      <p>
+        <strong>Dump</strong> — arquivo <code>.sql</code> com todos os
+        comandos necessários para recriar um banco (CREATE TABLE, INSERT...).
+        Exportar o banco gera um dump; importar executa os comandos do dump.
+      </p>
+
       <h2>Acessando</h2>
       <p>
         Com Apache e MySQL ligados no painel, abra:

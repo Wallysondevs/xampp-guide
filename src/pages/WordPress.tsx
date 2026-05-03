@@ -11,6 +11,33 @@ export default function WordPress() {
       difficulty="iniciante"
       timeToRead="9 min"
     >
+      <AlertBox type="info" title="Pré-requisitos">
+        XAMPP instalado, Apache e MySQL rodando, phpMyAdmin acessível em{" "}
+        <code>http://localhost/phpmyadmin</code>. Saber como criar um banco
+        no phpMyAdmin (capítulo anterior).
+      </AlertBox>
+
+      <h2>Glossário rápido</h2>
+      <p>
+        <strong>CMS (Content Management System)</strong> — sistema pronto para
+        gerenciar conteúdo (posts, páginas, mídia) sem precisar programar.
+        WordPress é o CMS mais usado do mundo: roda algo como 40% da web.
+      </p>
+      <p>
+        <strong>Tema</strong> — pacote de arquivos PHP/CSS que define a
+        aparência do site. Vem em <code>wp-content/themes/</code>.
+      </p>
+      <p>
+        <strong>Plugin</strong> — pacote que adiciona funcionalidade ao
+        WordPress (formulário de contato, loja virtual, SEO). Vem em{" "}
+        <code>wp-content/plugins/</code>.
+      </p>
+      <p>
+        <strong>wp-config.php</strong> — o único arquivo que você precisa
+        editar manualmente: contém as credenciais do banco de dados e algumas
+        configurações de segurança.
+      </p>
+
       <h2>Por que rodar WordPress local?</h2>
       <ul>
         <li>Desenvolver e testar plugins/temas sem mexer no site oficial.</li>

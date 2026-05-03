@@ -12,6 +12,30 @@ export default function PortasConflitos() {
       difficulty="iniciante"
       timeToRead="7 min"
     >
+      <AlertBox type="info" title="Pré-requisitos">
+        XAMPP instalado e o painel de controle aberto. Saber abrir o terminal
+        do seu sistema (PowerShell ou CMD no Windows, Terminal no macOS/Linux).
+      </AlertBox>
+
+      <h2>Glossário rápido</h2>
+      <p>
+        <strong>Porta</strong> — número de 0 a 65535 que identifica um
+        "endereço" dentro do seu computador onde um programa está escutando.
+        HTTP usa 80, HTTPS usa 443, MySQL usa 3306. Cada porta só pode ser
+        usada por um programa por vez.
+      </p>
+      <p>
+        <strong>Conflito de porta</strong> — acontece quando dois programas
+        tentam abrir a mesma porta. O segundo sempre falha. É o erro mais
+        comum do XAMPP no Windows (Skype antigo, World Wide Web Publishing
+        Service do IIS, Windows Server).
+      </p>
+      <p>
+        <strong>netstat</strong> e <strong>lsof</strong> — comandos para
+        descobrir qual programa está ocupando uma porta. <code>netstat</code>{" "}
+        funciona no Windows e Linux; <code>lsof</code> é macOS/Linux.
+      </p>
+
       <p>
         O Apache do XAMPP, por padrão, escuta nas portas <strong>80</strong>
         (HTTP) e <strong>443</strong> (HTTPS). O MySQL escuta na{" "}

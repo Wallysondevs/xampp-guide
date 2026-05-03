@@ -11,6 +11,29 @@ export default function EstruturaPastas() {
       difficulty="iniciante"
       timeToRead="6 min"
     >
+      <AlertBox type="info" title="Pré-requisitos">
+        XAMPP já instalado e funcionando. Não precisa estar rodando — vamos
+        apenas explorar arquivos. Saber abrir o explorador de arquivos do seu
+        sistema (Explorer no Windows, Finder no macOS, Nautilus/Files no Linux).
+      </AlertBox>
+
+      <h2>Glossário rápido</h2>
+      <p>
+        <strong>DocumentRoot</strong> — termo do Apache para "a pasta raiz do
+        servidor". Tudo que o navegador consegue ver via <code>http://localhost</code>{" "}
+        está dentro dela. No XAMPP, o DocumentRoot padrão é <code>htdocs/</code>.
+      </p>
+      <p>
+        <strong>Diretório</strong> e <strong>pasta</strong> — significam a
+        mesma coisa. "Diretório" é o termo técnico (vem do Unix), "pasta" é o
+        termo amigável (vem do Windows). Vamos usar os dois.
+      </p>
+      <p>
+        <strong>Log</strong> — arquivo de texto onde um programa registra o
+        que está acontecendo. Os logs do Apache (<code>access.log</code> e{" "}
+        <code>error.log</code>) são seus melhores amigos quando algo quebra.
+      </p>
+
       <h2>A árvore principal</h2>
       <p>
         Após instalar, o XAMPP cria uma pasta única (em Windows é{" "}

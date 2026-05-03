@@ -11,6 +11,29 @@ export default function InstalacaoLinux() {
       difficulty="intermediario"
       timeToRead="8 min"
     >
+      <AlertBox type="info" title="Pré-requisitos">
+        Distro Linux com kernel 5.x ou superior, <strong>5 GB livres</strong>{" "}
+        em disco e privilégio <code>sudo</code>. Saber abrir um terminal e
+        rodar comandos básicos (<code>cd</code>, <code>ls</code>,{" "}
+        <code>chmod</code>).
+      </AlertBox>
+
+      <h2>Glossário rápido</h2>
+      <p>
+        <strong>sudo</strong> — comando que roda outro comando "como root"
+        (administrador). Praticamente todo passo desta página precisa de sudo.
+      </p>
+      <p>
+        <strong>Gerenciador de pacotes</strong> — programa que instala
+        software no Linux a partir de repositórios oficiais. Cada distro tem
+        o seu: <code>apt</code> (Debian/Ubuntu), <code>dnf</code> (Fedora),{" "}
+        <code>pacman</code> (Arch), <code>zypper</code> (openSUSE).
+      </p>
+      <p>
+        <strong>/opt/lampp</strong> — pasta padrão onde o XAMPP se instala
+        no Linux. Equivale ao <code>C:\xampp</code> do Windows.
+      </p>
+
       <AlertBox type="info" title="Vale a pena no Linux?">
         Em Linux, instalar Apache + PHP + MariaDB pelo gerenciador de pacotes
         (apt/dnf) costuma ser mais leve e mais "linuxento". Use o XAMPP no

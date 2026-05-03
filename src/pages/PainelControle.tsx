@@ -11,6 +11,30 @@ export default function PainelControle() {
       difficulty="iniciante"
       timeToRead="5 min"
     >
+      <AlertBox type="info" title="Pré-requisitos">
+        XAMPP instalado. Saber clicar em "Executar como administrador" no
+        Windows (ou usar <code>sudo</code> no Linux/macOS) — algumas operações
+        do painel exigem privilégio elevado.
+      </AlertBox>
+
+      <h2>Glossário rápido</h2>
+      <p>
+        <strong>Daemon</strong> — programa que roda em segundo plano,
+        sem janela. O Apache e o MariaDB são daemons quando rodam como
+        "serviço" do Windows ou do systemd.
+      </p>
+      <p>
+        <strong>PID (Process ID)</strong> — número único que o sistema dá a
+        cada processo em execução. O painel mostra o PID do Apache e do MySQL
+        — útil quando você precisa "matar" um processo travado.
+      </p>
+      <p>
+        <strong>Iniciar / Parar / Reiniciar</strong> — Iniciar liga o serviço.
+        Parar desliga. Reiniciar é parar + iniciar (preserva configurações
+        novas que você acabou de salvar em arquivos <code>.conf</code> ou{" "}
+        <code>.ini</code>).
+      </p>
+
       <h2>Anatomia da janela</h2>
       <p>
         Quando você abre o "XAMPP Control Panel" no Windows (ou o
