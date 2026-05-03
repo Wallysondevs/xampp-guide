@@ -74,8 +74,8 @@ const sections = [
 ];
 
 const stats = [
-  { value: "30", label: "Tópicos" },
-  { value: "100+", label: "Códigos prontos" },
+  { value: "55", label: "Tópicos" },
+  { value: "200+", label: "Códigos prontos" },
   { value: "PT-BR", label: "100% Português" },
   { value: "Grátis", label: "Open Source" },
 ];

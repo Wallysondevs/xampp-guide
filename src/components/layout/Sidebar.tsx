@@ -6,7 +6,9 @@ import {
   Globe, ChevronRight, Settings, Layers, HardDrive,
   Zap, AlertTriangle, FileCode, Lock, Mail, ShieldAlert,
   GitCompare, Terminal, Key, Bug, Save, Rocket,
-  PanelTop, FileText, Wrench, Award,
+  PanelTop, FileText, Wrench, Award, Activity, Gauge,
+  Replace, Users, BarChart3, Clock, Network, Shield,
+  TestTube, ScrollText, Upload, Coffee,
 } from "lucide-react";
 
 const NAVIGATION = [
@@ -35,17 +37,30 @@ const NAVIGATION = [
     ],
   },
   {
-    title: "Apache",
+    title: "Apache — Básico",
     items: [
       { path: "/apache-config", label: "httpd.conf", icon: Settings },
       { path: "/virtual-hosts", label: "Virtual Hosts", icon: Globe },
-      { path: "/htaccess", label: ".htaccess & Rewrite", icon: FileCode },
+      { path: "/htaccess", label: ".htaccess", icon: FileCode },
       { path: "/ssl-local", label: "HTTPS local (SSL)", icon: Lock },
       { path: "/apache-modulos", label: "Módulos do Apache", icon: Layers },
     ],
   },
   {
-    title: "PHP",
+    title: "Apache — Avançado",
+    items: [
+      { path: "/apache-rewrite", label: "mod_rewrite avançado", icon: Replace },
+      { path: "/apache-logs", label: "Logs e LogFormat", icon: ScrollText },
+      { path: "/apache-auth", label: "Autenticação básica", icon: Key },
+      { path: "/apache-mpms", label: "MPMs (prefork/worker)", icon: Layers },
+      { path: "/apache-reverse-proxy", label: "Reverse proxy", icon: Network },
+      { path: "/apache-headers", label: "mod_headers", icon: FileText },
+      { path: "/apache-status", label: "mod_status", icon: Activity },
+      { path: "/apache-benchmark", label: "ApacheBench (ab)", icon: Gauge },
+    ],
+  },
+  {
+    title: "PHP — Básico",
     items: [
       { path: "/php-ini", label: "php.ini", icon: Settings },
       { path: "/php-extensoes", label: "Extensões", icon: Package },
@@ -55,12 +70,36 @@ const NAVIGATION = [
     ],
   },
   {
+    title: "PHP — Avançado",
+    items: [
+      { path: "/php-cli", label: "PHP via linha de comando", icon: Terminal },
+      { path: "/php-fpm", label: "PHP-FPM", icon: Server },
+      { path: "/php-unit", label: "PHPUnit (testes)", icon: TestTube },
+      { path: "/php-debug-log", label: "Logs e error_log", icon: ScrollText },
+    ],
+  },
+  {
     title: "MySQL / MariaDB",
     items: [
       { path: "/mysql-config", label: "my.ini", icon: Settings },
       { path: "/phpmyadmin", label: "phpMyAdmin", icon: Database },
       { path: "/mysql-senha-root", label: "Senha do root", icon: Key },
       { path: "/mysql-backup", label: "Backup & Restore", icon: Save },
+      { path: "/mariadb-usuarios", label: "Usuários e GRANT", icon: Users },
+      { path: "/mariadb-queries", label: "Queries essenciais", icon: Database },
+      { path: "/mariadb-procedures", label: "Procedures & Triggers", icon: FileCode },
+      { path: "/mariadb-performance", label: "Performance & EXPLAIN", icon: Gauge },
+      { path: "/mariadb-replicacao", label: "Replicação master/slave", icon: BarChart3 },
+    ],
+  },
+  {
+    title: "Perl & Outros Serviços",
+    items: [
+      { path: "/perl-cgi", label: "Perl CGI", icon: Terminal },
+      { path: "/perl-modulos", label: "Módulos Perl (CPAN)", icon: Package },
+      { path: "/tomcat", label: "Tomcat (Java)", icon: Coffee },
+      { path: "/filezilla", label: "FileZilla FTP", icon: Upload },
+      { path: "/webalizer", label: "Webalizer", icon: BarChart3 },
     ],
   },
   {
@@ -69,6 +108,14 @@ const NAVIGATION = [
       { path: "/mercury", label: "Mercury Mail", icon: Mail },
       { path: "/wordpress", label: "WordPress", icon: Globe },
       { path: "/laravel", label: "Laravel", icon: Terminal },
+    ],
+  },
+  {
+    title: "Workflow & Operação",
+    items: [
+      { path: "/cron-xampp", label: "Cron / Tarefas agendadas", icon: Clock },
+      { path: "/multi-site", label: "Múltiplos sites locais", icon: Layers },
+      { path: "/modsecurity", label: "ModSecurity (WAF)", icon: Shield },
     ],
   },
   {
@@ -159,7 +206,7 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
 
         <div className="p-4 border-t border-border mt-4">
           <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1">
-            <Award className="w-3 h-3" /> 30 tópicos
+            <Award className="w-3 h-3" /> 55 tópicos
           </p>
           <p className="text-xs text-muted-foreground text-center mt-1">
             Apache · MariaDB · PHP · Perl
