@@ -5,80 +5,107 @@ import { ParamsTable } from "@/components/ui/ParamsTable";
 export default function Comparacao() {
   return (
     <PageContainer
-      title="XAMPP vs WAMP, MAMP e Laragon"
-      subtitle="Existem várias opções de stack PHP local. Vamos comparar honestamente para você escolher a certa para o seu caso."
+      title="XAMPP vs WAMP vs MAMP vs LAMP — qual escolher?"
+      subtitle="Os concorrentes, as diferenças reais, quando cada um faz sentido. Inclui Laragon, Docker, Herd e os caminhos modernos para subir um stack PHP+MySQL local."
       difficulty="iniciante"
-      timeToRead="5 min"
+      timeToRead="9 min"
     >
       <AlertBox type="info" title="Pré-requisitos">
-        Nenhum. Este capítulo é teórico — vai te ajudar a decidir SE o XAMPP é
-        a escolha certa para você antes mesmo de instalar.
+        Útil já ter lido <a href="#/o-que-e-xampp">O que é o XAMPP</a>. Não
+        precisa ter testado as alternativas — vamos passar por cada uma.
       </AlertBox>
 
       <h2>Glossário rápido</h2>
       <p>
-        <strong>Stack</strong> — conjunto de tecnologias usadas juntas. LAMP =
-        Linux + Apache + MySQL + PHP. WAMP = Windows no lugar do Linux. MAMP =
-        macOS no lugar do Linux. XAMPP = "X" de cross-platform (qualquer SO).
+        <strong>Stack</strong> — pilha de tecnologias que rodam juntas. Para
+        PHP, o stack clássico é Apache + MySQL + PHP no Linux (LAMP).
       </p>
       <p>
-        <strong>Container</strong> — uma forma moderna de empacotar uma
-        aplicação isolada do resto do sistema. Docker usa containers. Mais
-        leve que uma máquina virtual, mais isolado que o XAMPP.
+        <strong>AMP</strong> — sigla genérica que aparece nos nomes (Apache,
+        MySQL, PHP). A primeira letra muda conforme o sistema:{" "}
+        <code>L</code> de Linux, <code>W</code> de Windows, <code>M</code> de
+        Mac, <code>X</code> de Cross-platform.
       </p>
       <p>
-        <strong>Servidor embutido</strong> — o próprio PHP, a partir da versão
-        5.4, traz um mini-servidor (<code>php -S localhost:8000</code>) que
-        serve para testar coisas pequenas sem instalar nada.
+        <strong>Containerização</strong> — encapsular o stack inteiro em
+        contêineres isolados (Docker). Cada projeto pode ter sua própria
+        versão de PHP, MySQL etc., sem conflito global.
       </p>
 
-      <p>
-        Todos esses projetos resolvem o mesmo problema: rodar Apache + PHP +
-        MySQL no seu computador. Mas cada um tem um foco diferente.
-      </p>
-
+      <h2>Família AMP — comparativo direto</h2>
       <ParamsTable
-        title="Comparação rápida — qual escolher"
+        title="Os 4 principais 'AMPs'"
         params={[
-          { flag: "XAMPP", desc: "Multiplataforma (Windows, macOS, Linux). Tem Mercury (SMTP local), FileZilla, Tomcat. Pacote mais completo. Ideal para quem aprende e quer estudar email/FTP/Java junto." },
-          { flag: "WAMP", desc: "Apenas Windows. Foco em deixar trocar versão de PHP/Apache/MySQL fácil pelo menu da bandeja. Mais leve que o XAMPP. Não tem ferramentas extras." },
-          { flag: "MAMP", desc: "Apenas macOS (e Windows na versão paga). Bem polido visualmente. Versão grátis funciona, mas a Pro ($59) é necessária para múltiplos hosts e PHP per-vhost." },
-          { flag: "Laragon", desc: "Apenas Windows. Pré-configurado para Laravel, Symfony, WordPress. Cria virtual hosts automaticamente baseado no nome da pasta. Muito amado pela comunidade Laravel." },
-          { flag: "Docker", desc: "Multiplataforma e profissional. Cada projeto fica isolado em containers. Curva de aprendizado maior. É o padrão da indústria hoje." },
+          { flag: "LAMP", desc: "Linux + Apache + MySQL + PHP. É o stack padrão de produção. Não tem instalador único: você instala cada componente pelo gerenciador de pacotes da distro (apt, dnf, pacman). É o que está na sua hospedagem real." },
+          { flag: "WAMP", desc: "Windows + Apache + MySQL + PHP. Distribuído pelo WampServer (wampserver.com). Só Windows. Vem com phpMyAdmin e SQLBuddy. Permite trocar versões do PHP no mesmo painel — ponto forte sobre o XAMPP." },
+          { flag: "MAMP", desc: "Mac + Apache + MySQL + PHP. Pago em sua versão Pro (com nginx, hosts, SSL pronto). A versão grátis é minimalista. Só macOS (e tem MAMP Windows também, mas pouco usado)." },
+          { flag: "XAMPP", desc: "Cross-platform — Windows, Linux e macOS. Mantido pela Apache Friends. Vem com Apache, MariaDB (no lugar do MySQL), PHP, Perl, phpMyAdmin, Mercury, FileZilla, Tomcat. É o mais 'pesado' — o objetivo dele é incluir tudo que estudante/professor possa precisar." },
         ]}
       />
 
-      <h2>Quando o XAMPP é a melhor escolha</h2>
+      <h2>Onde cada um brilha</h2>
       <ul>
-        <li>Você usa Linux, macOS <em>e</em> Windows e quer a mesma ferramenta nos três.</li>
-        <li>Está aprendendo e quer um pacote oficial, mantido há mais de 20 anos.</li>
-        <li>Precisa testar envio de email no PHP (Mercury vem incluso).</li>
-        <li>Vai rodar Java/Tomcat no mesmo ambiente.</li>
-        <li>Quer estudar para uma prova de faculdade que pediu "instale o XAMPP".</li>
+        <li>
+          <strong>XAMPP</strong> — você quer 1 instalador que resolve tudo,
+          inclusive Tomcat e SMTP. Multiplataforma. Material didático em
+          português abundante.
+        </li>
+        <li>
+          <strong>WampServer</strong> — Windows-only, mas troca versões de
+          PHP/MariaDB no clique direito do tray. Prático se você troca de
+          PHP 7.x ↔ 8.x com frequência.
+        </li>
+        <li>
+          <strong>MAMP</strong> — Mac, com versão Pro paga que automatiza
+          virtual hosts e HTTPS. Boa interface gráfica.
+        </li>
+        <li>
+          <strong>LAMP nativo</strong> — quando seu desenvolvimento é em
+          Linux e você quer reproduzir exatamente o que terá em produção.
+        </li>
       </ul>
 
-      <h2>Quando outra opção brilha mais</h2>
-      <ul>
-        <li><strong>Está só no Windows e mexe com Laravel?</strong> Laragon é mais ergonômico.</li>
-        <li><strong>Quer trocar versão de PHP em 2 cliques?</strong> WAMP tem isso melhor.</li>
-        <li><strong>Vai trabalhar em equipe e quer ambiente reprodutível?</strong> Docker é o caminho.</li>
-        <li><strong>Está em Linux puro?</strong> Instalar Apache + PHP + MariaDB pelo gerenciador de pacotes (<code>apt</code>, <code>dnf</code>) é mais leve.</li>
-      </ul>
+      <h2>Alternativas modernas</h2>
+      <ParamsTable
+        title="Outras opções que valem conhecer"
+        params={[
+          { flag: "Laragon (Windows)", desc: "Concorrente moderno do WAMP/XAMPP. Cria virtual hosts com domínios .test automaticamente, troca PHP em segundos, vem com Node, Composer, Git, Redis. Menos pesado e mais 'zero config' que o XAMPP." },
+          { flag: "Laravel Herd (Mac/Win)", desc: "Sucessor do Valet. Stack PHP nativo super rápido, .test domains, isolamento por projeto. Especialmente bom para Laravel — daí o nome." },
+          { flag: "Valet (Mac)", desc: "Pacote oficial do Laravel para macOS. Usa Nginx + DnsMasq. Cria domínios .test, troca PHP via Homebrew. Leve." },
+          { flag: "Docker / Docker Compose", desc: "Cada projeto define seu próprio stack em docker-compose.yml. PHP 8.3 num projeto, 7.4 em outro, sem conflito. Padrão profissional hoje." },
+          { flag: "DDEV / Lando", desc: "Camadas em cima do Docker que pré-configuram stacks de WordPress/Drupal/Laravel. Comando único para subir/derrubar." },
+          { flag: "PHP embutido (php -S)", desc: "Para um teste rápido de uma página PHP, basta cd na pasta e rodar php -S 0.0.0.0:8000. Sem stack, sem instalador." },
+        ]}
+      />
 
-      <AlertBox type="info" title="Não dá pra rodar dois ao mesmo tempo">
-        XAMPP, WAMP, MAMP e Laragon todos tentam usar a porta 80 (Apache) e
-        3306 (MySQL). Se você instalar dois e iniciar o Apache de ambos, vai
-        ter erro. Use só um por vez — ou mude as portas.
-      </AlertBox>
+      <h2>XAMPP vs Docker — a comparação que mais aparece</h2>
+      <ParamsTable
+        title="Quando vale a pena cada um"
+        params={[
+          { flag: "Iniciante absoluto", desc: "XAMPP. Instalou, abriu o navegador, está pronto. Docker tem curva de aprendizado." },
+          { flag: "Estudo pessoal de PHP/MySQL", desc: "XAMPP. Sem complicação, sem yml, sem comando." },
+          { flag: "Vários projetos com PHP/MySQL diferentes", desc: "Docker. Isolamento por projeto, sem brigar de versão global." },
+          { flag: "Replicar EXATAMENTE produção", desc: "Docker. Você usa as mesmas imagens em dev e em deploy." },
+          { flag: "Equipe com 'no meu PC funciona'", desc: "Docker. Mesma imagem para todo mundo, mesmo SO base." },
+          { flag: "PC modesto, sem virtualização", desc: "XAMPP. Docker em Windows precisa de WSL2/Hyper-V." },
+        ]}
+      />
 
-      <h2>"E o Nginx?"</h2>
+      <h2>Por que mantemos o XAMPP em 2026</h2>
       <p>
-        Esses pacotes são <strong>Apache</strong>-based. Se quer rodar Nginx
-        local, considere alternativas como <strong>WPN-XM</strong> (Windows),
-        instalar Nginx + PHP-FPM manualmente em Linux/macOS, ou usar Docker.
-        Em produção, Nginx é mais comum hoje — em desenvolvimento, Apache do
-        XAMPP é mais que suficiente.
+        Mesmo com Docker dominando equipes profissionais, o XAMPP continua
+        sendo a porta de entrada mais simples para PHP em escolas, faculdades
+        e estudo individual. A documentação é farta, o material em português
+        é abundante e qualquer tutorial de WordPress, Joomla ou Laravel
+        antigo presume XAMPP. Saber XAMPP <strong>não é desatualizado</strong>
+        {" "}— é o ABC do stack PHP local.
       </p>
+
+      <AlertBox type="success" title="Recomendação prática">
+        Está aprendendo? <strong>XAMPP</strong>. Vai trabalhar profissional?
+        Aprenda <strong>Docker</strong> também — mas continue com XAMPP para
+        protótipos rápidos e quando estiver longe do laptop principal.
+      </AlertBox>
     </PageContainer>
   );
 }

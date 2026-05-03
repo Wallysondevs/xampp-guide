@@ -1,182 +1,316 @@
 import { PageContainer } from "@/components/layout/PageContainer";
 import { AlertBox } from "@/components/ui/AlertBox";
 import { CodeBlock } from "@/components/ui/CodeBlock";
+import { ParamsTable } from "@/components/ui/ParamsTable";
 import { PracticeBox } from "@/components/ui/PracticeBox";
 
 export default function WordPress() {
   return (
     <PageContainer
-      title="Hospedando WordPress no XAMPP"
-      subtitle="Do download ao primeiro post no ar — em http://localhost/wordpress."
+      title="WordPress no XAMPP — guia completo"
+      subtitle="Da pasta vazia ao site rodando. Banco, wp-config.php, pretty permalinks, multisite, plugins, debug, migração para produção."
       difficulty="iniciante"
-      timeToRead="9 min"
+      timeToRead="14 min"
     >
       <AlertBox type="info" title="Pré-requisitos">
-        XAMPP instalado, Apache e MySQL rodando, phpMyAdmin acessível em{" "}
-        <code>http://localhost/phpmyadmin</code>. Saber como criar um banco
-        no phpMyAdmin (capítulo anterior).
+        XAMPP instalado com Apache + MariaDB rodando. Acesso ao
+        phpMyAdmin (<code>http://localhost/phpmyadmin</code>). Saber criar
+        pastas em <code>htdocs/</code>.
       </AlertBox>
 
       <h2>Glossário rápido</h2>
       <p>
-        <strong>CMS (Content Management System)</strong> — sistema pronto para
-        gerenciar conteúdo (posts, páginas, mídia) sem precisar programar.
-        WordPress é o CMS mais usado do mundo: roda algo como 40% da web.
+        <strong>WordPress (WP)</strong> — CMS open source que move ~43% dos
+        sites da web. Roda em PHP + MySQL/MariaDB. Mantém-se com plugins e
+        temas instaláveis pelo painel admin.
       </p>
       <p>
-        <strong>Tema</strong> — pacote de arquivos PHP/CSS que define a
-        aparência do site. Vem em <code>wp-content/themes/</code>.
+        <strong>wp-config.php</strong> — arquivo na raiz do site que diz ao
+        WordPress qual banco usar, prefixo de tabelas, salts de cookie e
+        flags de debug.
       </p>
       <p>
-        <strong>Plugin</strong> — pacote que adiciona funcionalidade ao
-        WordPress (formulário de contato, loja virtual, SEO). Vem em{" "}
-        <code>wp-content/plugins/</code>.
+        <strong>wp-content/</strong> — pasta com tudo que <em>você</em>{" "}
+        adiciona: temas (<code>themes/</code>), plugins (<code>plugins/</code>)
+        e uploads (<code>uploads/</code>). É a pasta sagrada para backup.
       </p>
       <p>
-        <strong>wp-config.php</strong> — o único arquivo que você precisa
-        editar manualmente: contém as credenciais do banco de dados e algumas
-        configurações de segurança.
+        <strong>Pretty permalinks</strong> — URLs amigáveis (<code>/sobre/</code>{" "}
+        em vez de <code>/?p=2</code>). Exigem <code>mod_rewrite</code> +{" "}
+        <code>.htaccess</code>.
       </p>
 
-      <h2>Por que rodar WordPress local?</h2>
-      <ul>
-        <li>Desenvolver e testar plugins/temas sem mexer no site oficial.</li>
-        <li>Estudar PHP no projeto open source mais usado do mundo.</li>
-        <li>Migrar um site de produção para sua máquina e testar atualizações antes.</li>
-        <li>Dar aulas, workshops, treinamentos.</li>
-      </ul>
+      <h2>1. Baixar e descompactar</h2>
+      <ol>
+        <li>
+          Vá em{" "}
+          <a href="https://br.wordpress.org/download/" target="_blank" rel="noreferrer">
+            br.wordpress.org/download
+          </a>{" "}
+          e baixe a versão em PT-BR.
+        </li>
+        <li>Descompacte em <code>C:/xampp/htdocs/meu-site/</code>.</li>
+        <li>
+          A pasta deve conter: <code>wp-admin/</code>, <code>wp-content/</code>,{" "}
+          <code>wp-includes/</code>, <code>index.php</code>,{" "}
+          <code>wp-config-sample.php</code>, <code>readme.html</code>,
+          {" "}<code>license.txt</code>, etc.
+        </li>
+      </ol>
 
-      <h2>1. Baixe o WordPress</h2>
-      <p>
-        Em{" "}
-        <a href="https://br.wordpress.org/download/" target="_blank" rel="noreferrer">
-          br.wordpress.org/download
-        </a>{" "}
-        baixe o ZIP em português. Extraia em{" "}
-        <code>C:/xampp/htdocs/wordpress</code>.
-      </p>
-
-      <h2>2. Crie o banco no phpMyAdmin</h2>
+      <h2>2. Criar o banco no phpMyAdmin</h2>
       <PracticeBox
-        title="Criar banco para o WordPress"
-        goal="Ter um banco vazio chamado 'wordpress' pronto para o instalador."
+        title="Banco para o WordPress"
+        goal="Ter um banco vazio chamado 'meu_site_wp'."
         steps={[
-          "Garanta que MySQL está rodando no painel",
           "Acesse http://localhost/phpmyadmin",
-          "Aba 'Bases de dados' → digite 'wordpress' → cotejamento utf8mb4_unicode_ci → Criar",
+          "Clique em 'Bancos de dados'",
+          "Crie 'meu_site_wp' com collation utf8mb4_unicode_ci",
+          "(opcional) Crie um usuário 'wp_user' com privilégios SOMENTE neste banco",
         ]}
-        verify="O banco 'wordpress' aparece na barra esquerda do phpMyAdmin."
+        verify="O banco aparece na sidebar e está vazio."
       />
 
-      <h2>3. Rode o instalador do WordPress</h2>
-      <p>Acesse no navegador:</p>
-      <CodeBlock language="text" code={`http://localhost/wordpress`} />
-      <p>O assistente do WordPress abre. Preencha:</p>
-      <ul>
-        <li><strong>Nome do banco</strong>: wordpress</li>
-        <li><strong>Nome de usuário</strong>: root</li>
-        <li><strong>Senha</strong>: (vazia, salvo se você definiu)</li>
-        <li><strong>Servidor</strong>: localhost (ou 127.0.0.1)</li>
-        <li><strong>Prefixo das tabelas</strong>: wp_ (padrão tá ótimo)</li>
-      </ul>
+      <h2>3. Configurar wp-config.php</h2>
       <p>
-        Se der erro de "não foi possível escrever wp-config.php", crie você
-        mesmo o arquivo:
+        Renomeie <code>wp-config-sample.php</code> para{" "}
+        <code>wp-config.php</code> e edite:
       </p>
-      <CodeBlock language="bash" code={`# Dentro de C:/xampp/htdocs/wordpress
-# Renomeie wp-config-sample.php para wp-config.php
-# Abra e preencha:`} />
-      <CodeBlock title="wp-config.php (trecho)" language="php" code={`define('DB_NAME',     'wordpress');
-define('DB_USER',     'root');
-define('DB_PASSWORD', '');
-define('DB_HOST',     'localhost');
-define('DB_CHARSET',  'utf8mb4');
-define('DB_COLLATE',  '');
+      <CodeBlock title="C:/xampp/htdocs/meu-site/wp-config.php" language="php" code={`<?php
+// ** Banco de dados ** //
+define( 'DB_NAME',     'meu_site_wp' );
+define( 'DB_USER',     'root' );        // ou 'wp_user' se criou
+define( 'DB_PASSWORD', '' );             // vazio se não rodou o security wizard
+define( 'DB_HOST',     'localhost' );
+define( 'DB_CHARSET',  'utf8mb4' );
+define( 'DB_COLLATE',  '' );
 
-// Habilita debug enquanto desenvolvendo:
-define('WP_DEBUG',         true);
-define('WP_DEBUG_LOG',     true);
-define('WP_DEBUG_DISPLAY', true);
+// ** Salts ** //
+// Gere em https://api.wordpress.org/secret-key/1.1/salt/
+define( 'AUTH_KEY',         'cole-aqui-uma-string-de-64-chars' );
+define( 'SECURE_AUTH_KEY',  '...' );
+define( 'LOGGED_IN_KEY',    '...' );
+define( 'NONCE_KEY',        '...' );
+define( 'AUTH_SALT',        '...' );
+define( 'SECURE_AUTH_SALT', '...' );
+define( 'LOGGED_IN_SALT',   '...' );
+define( 'NONCE_SALT',       '...' );
 
-define('WP_HOME',    'http://localhost/wordpress');
-define('WP_SITEURL', 'http://localhost/wordpress');`} />
+// ** Prefixo das tabelas (em produção, prefira algo NÃO 'wp_') ** //
+\$table_prefix = 'wp_';
 
-      <h2>4. Defina o admin e entre</h2>
-      <p>O assistente pede:</p>
-      <ul>
-        <li>Título do site</li>
-        <li>Nome de usuário (não use "admin" — escolha algo seu)</li>
-        <li>Senha forte</li>
-        <li>Email</li>
-      </ul>
+// ** Debug em desenvolvimento ** //
+define( 'WP_DEBUG',         true );
+define( 'WP_DEBUG_LOG',     true );      // grava em wp-content/debug.log
+define( 'WP_DEBUG_DISPLAY', false );     // não vaza erro na tela
+define( 'SCRIPT_DEBUG',     true );      // usa CSS/JS não-minificados
+
+// ** URL local ** //
+define( 'WP_HOME',    'http://localhost/meu-site' );
+define( 'WP_SITEURL', 'http://localhost/meu-site' );
+
+// ** Memória ** //
+define( 'WP_MEMORY_LIMIT', '256M' );
+
+if ( ! defined( 'ABSPATH' ) ) {
+    define( 'ABSPATH', __DIR__ . '/' );
+}
+require_once ABSPATH . 'wp-settings.php';`} />
+
+      <AlertBox type="warning" title="Sempre gere salts novos">
+        Os salts garantem que cookies de login não sejam previsíveis.
+        Use o gerador oficial (link no comentário) — nunca deixe os valores
+        de exemplo do <code>wp-config-sample.php</code>.
+      </AlertBox>
+
+      <h2>4. Rodar o instalador</h2>
+      <ol>
+        <li>Acesse <code>http://localhost/meu-site/</code>.</li>
+        <li>Escolha o idioma (PT-BR vem padrão se baixou em br.wordpress.org).</li>
+        <li>Preencha: Título do site, usuário admin, senha forte, email.</li>
+        <li>Clique <strong>Instalar WordPress</strong>.</li>
+        <li>Login em <code>http://localhost/meu-site/wp-admin</code>.</li>
+      </ol>
+
+      <h2>5. Pretty permalinks (URLs amigáveis)</h2>
       <p>
-        Após criar, faça login em{" "}
-        <code>http://localhost/wordpress/wp-admin</code>.
+        Em <em>Configurações → Links permanentes</em>, escolha{" "}
+        <strong>"Nome do post"</strong>. O WordPress tenta criar/atualizar o{" "}
+        <code>.htaccess</code> automaticamente. Se falhar, cole manualmente:
       </p>
-
-      <h2>Configurações do php.ini que o WordPress agradece</h2>
-      <CodeBlock language="ini" code={`upload_max_filesize = 64M
-post_max_size       = 80M
-memory_limit        = 512M
-max_execution_time  = 300
-max_input_time      = 300
-max_input_vars      = 5000
-
-extension=mbstring
-extension=gd
-extension=intl
-extension=zip
-extension=curl
-extension=openssl
-extension=mysqli`} />
-
-      <h2>Permalinks bonitos (URLs amigáveis)</h2>
-      <p>
-        Vá em <strong>Configurações → Links Permanentes</strong> e escolha
-        "Nome do post". Para isso funcionar, você precisa de:
-      </p>
-      <ul>
-        <li><code>mod_rewrite</code> habilitado no Apache (veja <a href="#/apache-modulos">Módulos do Apache</a>).</li>
-        <li><code>AllowOverride All</code> em <code>htdocs/wordpress</code> no <code>httpd.conf</code>.</li>
-        <li>O arquivo <code>.htaccess</code> da pasta wordpress (o WP cria automaticamente).</li>
-      </ul>
-      <CodeBlock title="wordpress/.htaccess" language="apache" code={`# BEGIN WordPress
+      <CodeBlock title="C:/xampp/htdocs/meu-site/.htaccess" language="apache" code={`# BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /wordpress/
+RewriteBase /meu-site/
 RewriteRule ^index\\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /wordpress/index.php [L]
+RewriteRule . /meu-site/index.php [L]
 </IfModule>
 # END WordPress`} />
-
-      <h2>WordPress + Virtual Host (mais profissional)</h2>
       <p>
-        Em vez de <code>http://localhost/wordpress</code>, configure um VHost
-        para que o site responda em <code>http://meublog.local</code>. Veja{" "}
-        <a href="#/virtual-hosts">Virtual Hosts</a>. Não esqueça de atualizar
-        <code>WP_HOME</code> e <code>WP_SITEURL</code> no <code>wp-config.php</code>.
+        Confirme que o <code>mod_rewrite</code> está ativo no Apache (no XAMPP
+        já vem habilitado por padrão) e que <code>AllowOverride All</code>{" "}
+        está no bloco <code>&lt;Directory&gt;</code> do htdocs (
+        <a href="#/htaccess">veja a página sobre .htaccess</a>).
       </p>
 
-      <AlertBox type="warning" title="Cuidado ao mover URLs depois">
-        Se você instalar em <code>localhost/wordpress</code> e depois mudar
-        para <code>meublog.local</code>, todos os links absolutos no banco
-        (imagens, posts) continuam apontando para o antigo. Use o plugin{" "}
-        <strong>Better Search Replace</strong> para fazer o
-        find-and-replace seguro no banco inteiro.
+      <h2>Estrutura de pastas do WP</h2>
+      <ParamsTable
+        title="Pastas e arquivos principais"
+        params={[
+          { flag: "wp-admin/", desc: "Painel administrativo. NÃO edite arquivos aqui — atualizações sobrescrevem." },
+          { flag: "wp-includes/", desc: "Núcleo do WordPress. Mesmo princípio: mão fora." },
+          { flag: "wp-content/themes/", desc: "Temas instalados. Crie temas filhos aqui para customizar sem perder ao atualizar." },
+          { flag: "wp-content/plugins/", desc: "Plugins. Cada subpasta é um plugin." },
+          { flag: "wp-content/uploads/", desc: "Imagens e mídias enviadas via Biblioteca de Mídia. Organizada por ano/mês." },
+          { flag: "wp-content/languages/", desc: "Arquivos .mo de tradução." },
+          { flag: "wp-content/mu-plugins/", desc: "Must-Use plugins — carregados automaticamente, sem aparecer na tela de plugins." },
+          { flag: "wp-content/debug.log", desc: "Gerado quando WP_DEBUG_LOG=true. Onde os erros silenciosos aparecem." },
+          { flag: "wp-config.php", desc: "Sua configuração. NUNCA committe em repositório público sem mascarar credenciais." },
+          { flag: ".htaccess", desc: "Reescritas de URL para pretty permalinks." },
+        ]}
+      />
+
+      <h2>Trocando o tema</h2>
+      <p>
+        <em>Aparência → Temas → Adicionar novo</em>. Você pode buscar no
+        repositório oficial ou enviar um <code>.zip</code> de tema premium.
+        Os temas oficiais (Twenty Twenty-Four, Twenty Twenty-Five) já vêm
+        instalados.
+      </p>
+
+      <h3>Tema filho (child theme) — o jeito certo de customizar</h3>
+      <CodeBlock title="wp-content/themes/twentytwentyfour-child/style.css" language="css" code={`/*
+Theme Name:  Twenty Twenty-Four Child
+Template:    twentytwentyfour
+Version:     1.0
+Description: Customizações em cima do TT4
+*/`} />
+      <CodeBlock title="wp-content/themes/twentytwentyfour-child/functions.php" language="php" code={`<?php
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
+    wp_enqueue_style('child-style',  get_stylesheet_uri(), ['parent-style']);
+});`} />
+
+      <h2>Plugins essenciais para começar</h2>
+      <ul>
+        <li><strong>Yoast SEO</strong> ou <strong>Rank Math</strong> — SEO on-page.</li>
+        <li><strong>WP Mail SMTP</strong> — manda email pelo Gmail/Mailgun (no local, configure para o Mercury).</li>
+        <li><strong>WPForms Lite</strong> ou <strong>Contact Form 7</strong> — formulários.</li>
+        <li><strong>UpdraftPlus</strong> — backup completo automático.</li>
+        <li><strong>WP Super Cache</strong> ou <strong>W3 Total Cache</strong> — performance.</li>
+        <li><strong>Wordfence</strong> ou <strong>iThemes Security</strong> — segurança.</li>
+        <li><strong>Query Monitor</strong> — debug em desenvolvimento.</li>
+      </ul>
+
+      <h2>Modo multisite</h2>
+      <p>
+        Se quer rodar várias redes (subdomínios ou subpastas) em uma única
+        instalação, ative o multisite. Adicione ao{" "}
+        <code>wp-config.php</code> antes da linha <em>"Pronto, pare de editar"</em>:
+      </p>
+      <CodeBlock language="php" code={`define( 'WP_ALLOW_MULTISITE', true );`} />
+      <p>
+        Salve, abra <em>Ferramentas → Configuração de Rede</em>, escolha
+        subpastas (mais fácil em local) e finalize. O wizard adiciona mais
+        linhas ao <code>wp-config.php</code> e ao <code>.htaccess</code>.
+      </p>
+
+      <h2>Debug — encontrando o erro</h2>
+      <p>Com debug ligado (já fizemos), os erros vão para:</p>
+      <CodeBlock language="text" code={`C:/xampp/htdocs/meu-site/wp-content/debug.log`} />
+      <p>
+        Em desenvolvimento ative também o <strong>Query Monitor</strong>:
+        ele coloca uma barra no topo do site mostrando todas as queries SQL
+        executadas, hooks, requisições HTTP, ganchos e tempo de cada plugin.
+      </p>
+
+      <h2>Email no local com Mercury</h2>
+      <p>
+        Sem configurar nada, o <code>wp_mail()</code> tenta usar a função
+        nativa <code>mail()</code> do PHP — que no XAMPP fica desligada por
+        padrão. Use <strong>WP Mail SMTP</strong> configurado para Mercury:
+      </p>
+      <CodeBlock language="text" code={`Host: localhost
+Porta: 25
+Criptografia: nenhuma
+Autenticação: não
+Remetente: dev@localhost`} />
+      <p>
+        Veja o capítulo <a href="#/mercury">Mercury Mail</a> para como
+        habilitar Mercury e ver as caixas de entrada.
+      </p>
+
+      <h2>Migrar para produção</h2>
+      <ol>
+        <li>
+          No phpMyAdmin: exporte o banco do site local (formato SQL).
+        </li>
+        <li>Compacte a pasta <code>meu-site/</code> em .zip.</li>
+        <li>
+          Edite o .sql e troque <code>http://localhost/meu-site</code> por{" "}
+          <code>https://meusite.com</code>. Ou use o plugin{" "}
+          <strong>Better Search Replace</strong> após subir.
+        </li>
+        <li>
+          Suba o zip e o .sql para a hospedagem. Importe o .sql via cPanel
+          ou linha de comando.
+        </li>
+        <li>
+          Crie o banco e usuário em produção. Edite o{" "}
+          <code>wp-config.php</code> com as credenciais novas.
+        </li>
+        <li>
+          Defina <code>WP_HOME</code> e <code>WP_SITEURL</code> para o
+          domínio definitivo.
+        </li>
+        <li>
+          Em produção, mude para{" "}
+          <code>WP_DEBUG = false</code> e remova o <code>debug.log</code>.
+        </li>
+        <li>Ajuste permissões: pastas 755, arquivos 644, wp-config 600.</li>
+      </ol>
+
+      <AlertBox type="info" title="Atalho: All-in-One WP Migration">
+        Plugin que exporta tudo (banco + arquivos) num único .wpress e
+        importa do outro lado. Versão grátis tem limite de tamanho — para
+        sites maiores, use o método manual acima.
       </AlertBox>
 
-      <h2>Importando um site WordPress de produção</h2>
-      <p>O fluxo padrão:</p>
-      <ol>
-        <li>Plugin <strong>All-in-One WP Migration</strong> (no site online).</li>
-        <li>Exportar arquivo <code>.wpress</code> de até ~512MB grátis.</li>
-        <li>Instalar WordPress limpo no XAMPP.</li>
-        <li>Instalar o mesmo plugin no WP local.</li>
-        <li>Importar o <code>.wpress</code>.</li>
-      </ol>
-      <p>Ou manualmente: copie a pasta <code>wp-content/</code> + dump SQL do banco.</p>
+      <h2>Erros comuns</h2>
+      <ul>
+        <li>
+          <strong>"Erro ao estabelecer conexão com o banco"</strong> →
+          credenciais erradas no <code>wp-config.php</code> ou MariaDB
+          parado no painel.
+        </li>
+        <li>
+          <strong>"White screen of death"</strong> → erro fatal de PHP. Ative
+          <code>WP_DEBUG</code> e leia <code>wp-content/debug.log</code>.
+        </li>
+        <li>
+          <strong>"Briefly unavailable for scheduled maintenance"</strong> →
+          atualização travou. Apague o arquivo <code>.maintenance</code> da
+          raiz.
+        </li>
+        <li>
+          <strong>404 em todas as páginas após mudar permalinks</strong> →
+          falta o <code>mod_rewrite</code> ou{" "}
+          <code>AllowOverride All</code>.
+        </li>
+        <li>
+          <strong>"You do not have sufficient permissions to access this page"</strong>
+          → cookie corrompido. Limpe cookies do navegador para localhost.
+        </li>
+      </ul>
+
+      <AlertBox type="success" title="Pronto para o próximo passo">
+        Rodando o WordPress local? Estude também{" "}
+        <a href="#/laravel">Laravel</a>,{" "}
+        <a href="#/composer">Composer</a> e{" "}
+        <a href="#/migrar-producao">Migrar para produção</a>.
+      </AlertBox>
     </PageContainer>
   );
 }
