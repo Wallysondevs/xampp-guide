@@ -1,0 +1,55 @@
+import{j as e}from"./index-BreI0dyu.js";import{P as s,A as o}from"./AlertBox-C_bJKc46.js";import{C as a}from"./CodeBlock-D0rWxPIU.js";import{P as r}from"./ParamsTable-DyRs6_CQ.js";import{P as i}from"./PracticeBox-BV05Hsfh.js";import"./circle-alert-_acnmM4q.js";function h(){return e.jsxs(s,{title:"phpMyAdmin no XAMPP",subtitle:"A interface web para gerenciar o MariaDB. Login, criar bancos, importar/exportar, executar SQL, gerenciar usuários e proteger a tela contra acesso indevido.",difficulty:"iniciante",timeToRead:"11 min",children:[e.jsx(o,{type:"info",title:"Pré-requisitos",children:"XAMPP instalado com Apache + MariaDB rodando. Ter feito (ou não) o wizard de segurança — o comportamento do login muda nos dois cenários, vamos cobrir os dois."}),e.jsx("h2",{children:"Glossário rápido"}),e.jsxs("p",{children:[e.jsx("strong",{children:"phpMyAdmin"})," — aplicação PHP web que controla o MySQL/MariaDB sem você precisar lembrar de SQL. Foi criada em 1998 e é o painel mais usado no mundo PHP."]}),e.jsxs("p",{children:[e.jsx("strong",{children:"Banco de dados"})," — coleção de tabelas. Em MariaDB, cada projeto costuma ter seu próprio banco (ex.: ",e.jsx("code",{children:"loja"}),","," ",e.jsx("code",{children:"blog"}),", ",e.jsx("code",{children:"laravel_app"}),")."]}),e.jsxs("p",{children:[e.jsx("strong",{children:"Engine"})," — mecanismo de armazenamento da tabela."," ",e.jsx("code",{children:"InnoDB"})," (transacional, com foreign keys) é o padrão moderno.",e.jsx("code",{children:"MyISAM"})," (mais antigo, sem transações) ainda aparece em códigos legados."]}),e.jsxs("p",{children:[e.jsx("strong",{children:"Charset"})," — codificação de caracteres. Use sempre"," ",e.jsx("code",{children:"utf8mb4"})," para suportar emojis e acentos sem problema."]}),e.jsx("h2",{children:"Acessar pela primeira vez"}),e.jsxs("ol",{children:[e.jsx("li",{children:"Inicie Apache + MySQL no painel."}),e.jsxs("li",{children:["Acesse"," ",e.jsx("code",{children:"http://localhost/phpmyadmin"})," ou clique em"," ",e.jsx("strong",{children:"Admin"})," ao lado do MySQL no painel."]}),e.jsxs("li",{children:[e.jsx("strong",{children:"Sem wizard de segurança"}),": usuário ",e.jsx("code",{children:"root"})," ","e senha em branco — entra direto."]}),e.jsxs("li",{children:[e.jsx("strong",{children:"Após wizard de segurança"}),": usuário"," ",e.jsx("code",{children:"root"})," e a senha que você definiu. Se trocar a senha do MySQL pelo prompt e o phpMyAdmin parar de logar, atualize o arquivo de config (próxima seção)."]})]}),e.jsx("h2",{children:"Anatomia da tela"}),e.jsx(r,{title:"Áreas principais",params:[{flag:"Sidebar esquerda",desc:"Lista de bancos. Clicar em um expande as tabelas. O 'information_schema' é metadados — não mexa."},{flag:"Tab Bancos",desc:"Cria/dropa bancos."},{flag:"Tab SQL",desc:"Executa qualquer query digitada."},{flag:"Tab Estado",desc:"Ver estatísticas do servidor (queries por segundo, conexões, cache)."},{flag:"Tab Contas de usuário",desc:"Gerencia usuários do MariaDB e seus privilégios."},{flag:"Tab Exportar / Importar",desc:"Backups (.sql, .csv, .zip, .gz). Veja o capítulo dedicado em /mysql-backup."},{flag:"Tab Configurações",desc:"Personalização visual (tema, cor, idioma)."},{flag:"Tab Replicação",desc:"Master-slave (raramente usado em local)."}]}),e.jsx("h2",{children:"Criar um banco do zero"}),e.jsx(i,{title:"Criar o banco 'loja'",goal:"Ter um banco vazio para começar a trabalhar.",steps:["Clique na aba 'Bancos de dados'","Em 'Criar banco de dados', digite: loja","Selecione collation 'utf8mb4_unicode_ci' (suporta emoji e acentos)","Clique em 'Criar'"],verify:"O banco 'loja' aparece na sidebar esquerda."}),e.jsx("h2",{children:"Criar uma tabela"}),e.jsx(a,{language:"sql",code:`CREATE TABLE produtos (
+    id          INT          AUTO_INCREMENT PRIMARY KEY,
+    nome        VARCHAR(120) NOT NULL,
+    preco       DECIMAL(10,2) NOT NULL,
+    estoque     INT          NOT NULL DEFAULT 0,
+    created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;`}),e.jsxs("p",{children:["Cole na aba ",e.jsx("strong",{children:"SQL"})," e clique ",e.jsx("strong",{children:"Executar"}),". Você verá a tabela aparecer na sidebar."]}),e.jsx("h2",{children:"Inserir, alterar e remover dados pela GUI"}),e.jsxs("ul",{children:[e.jsxs("li",{children:[e.jsx("strong",{children:"Inserir"})," — abra a tabela → aba ",e.jsx("em",{children:"Inserir"})," → preencha os campos e ",e.jsx("em",{children:"Executar"}),"."]}),e.jsxs("li",{children:[e.jsx("strong",{children:"Procurar"})," → aba ",e.jsx("em",{children:"Procurar"}),". Lista todos os registros com paginação."]}),e.jsxs("li",{children:[e.jsx("strong",{children:"Editar"})," → ícone de lápis ao lado do registro."]}),e.jsxs("li",{children:[e.jsx("strong",{children:"Excluir"})," → ícone X. Pede confirmação."]})]}),e.jsx("h2",{children:"Importar um .sql"}),e.jsxs("ol",{children:[e.jsx("li",{children:"Selecione o banco destino na sidebar."}),e.jsxs("li",{children:["Aba ",e.jsx("strong",{children:"Importar"}),"."]}),e.jsx("li",{children:'"Procurar" → selecione o arquivo .sql.'}),e.jsx("li",{children:'"Formato": SQL.'}),e.jsx("li",{children:'Botão "Importar" no fim da página.'})]}),e.jsxs(o,{type:"warning",title:"Arquivo grande dá erro de upload",children:["phpMyAdmin respeita o ",e.jsx("code",{children:"upload_max_filesize"})," e"," ",e.jsx("code",{children:"post_max_size"})," do ",e.jsx("code",{children:"php.ini"}),". Para arquivos acima de ~50 MB, prefira ",e.jsx("code",{children:"mysql -u root -p loja < arquivo.sql"})," ","no terminal — bem mais rápido e sem timeout."]}),e.jsx("h2",{children:"Executar SQL avançado"}),e.jsxs("p",{children:["A aba ",e.jsx("strong",{children:"SQL"})," aceita qualquer query, inclusive múltiplas separadas por ",e.jsx("code",{children:";"}),". Útil para:"]}),e.jsx(a,{language:"sql",code:`-- Criar índice
+CREATE INDEX idx_produtos_nome ON produtos(nome);
+
+-- Update em massa
+UPDATE produtos SET preco = preco * 1.10 WHERE estoque > 0;
+
+-- Listar tamanho de cada banco
+SELECT
+    table_schema AS 'Banco',
+    ROUND(SUM(data_length + index_length) / 1024 / 1024, 2) AS 'Tamanho (MB)'
+FROM information_schema.tables
+GROUP BY table_schema;
+
+-- Top 10 tabelas mais pesadas
+SELECT
+    table_schema AS 'Banco',
+    table_name AS 'Tabela',
+    ROUND((data_length + index_length) / 1024 / 1024, 2) AS 'MB'
+FROM information_schema.tables
+ORDER BY (data_length + index_length) DESC
+LIMIT 10;`}),e.jsx("h2",{children:"Criar um usuário (não use root nas suas apps)"}),e.jsxs("p",{children:["O ",e.jsx("code",{children:"root"})," é todo-poderoso. Para sua aplicação, crie um usuário com privilégios só do banco que ela precisa:"]}),e.jsx(a,{language:"sql",code:`CREATE USER 'loja_user'@'localhost' IDENTIFIED BY 'senha-forte-aqui';
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON loja.* TO 'loja_user'@'localhost';
+
+-- (opcional) DDL também:
+GRANT CREATE, ALTER, DROP, INDEX, REFERENCES ON loja.* TO 'loja_user'@'localhost';
+
+FLUSH PRIVILEGES;`}),e.jsxs("p",{children:["Daí no ",e.jsx("code",{children:".env"})," da sua app:"]}),e.jsx(a,{language:"env",code:`DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=loja
+DB_USERNAME=loja_user
+DB_PASSWORD=senha-forte-aqui`}),e.jsx("h2",{children:"Onde mora a configuração"}),e.jsx(r,{title:"Arquivos relevantes",params:[{flag:"phpMyAdmin/config.inc.php",desc:"Configuração principal — host, usuário, senha do MariaDB, blowfish_secret (cookie auth), idioma padrão."},{flag:"phpMyAdmin/themes/",desc:"Temas. O 'pmahomme' é o padrão moderno; 'metro' (azul) também é popular."},{flag:"apache/conf/extra/httpd-xampp.conf",desc:"Aliases e regras de acesso. É AQUI que você restringe quem pode abrir /phpmyadmin."}]}),e.jsx("h2",{children:"Atualizar a senha de root no config"}),e.jsxs("p",{children:["Se você trocou a senha do ",e.jsx("code",{children:"root"})," do MariaDB pelo terminal e o phpMyAdmin parou de logar:"]}),e.jsx(a,{title:"phpMyAdmin/config.inc.php",language:"php",code:`<?php
+$cfg['blowfish_secret'] = 'frase-aleatoria-de-32-chars-aqui';
+
+$i = 0;
+$i++;
+
+$cfg['Servers'][$i]['auth_type']  = 'cookie';        // 'config' = login automático; 'cookie' = pede senha
+$cfg['Servers'][$i]['host']       = 'localhost';
+$cfg['Servers'][$i]['user']       = 'root';
+$cfg['Servers'][$i]['password']   = 'NOVA-SENHA-AQUI';
+$cfg['Servers'][$i]['extension']  = 'mysqli';
+$cfg['Servers'][$i]['AllowNoPassword'] = false;       // não aceita senha vazia (mais seguro)`}),e.jsx("h2",{children:"Restringindo o acesso ao phpMyAdmin"}),e.jsxs(o,{type:"danger",title:"Por padrão, qualquer um na sua rede local pode acessar",children:["Se você roda XAMPP em um notebook num café com Wi-Fi público, todo mundo na rede pode abrir ",e.jsx("code",{children:"http://SEU-IP/phpmyadmin"}),". Restrinja imediatamente."]}),e.jsxs("p",{children:["Edite ",e.jsx("code",{children:"apache/conf/extra/httpd-xampp.conf"})," e procure pelo bloco ",e.jsx("code",{children:'<Directory ".../phpMyAdmin">'}),". Substitua por:"]}),e.jsx(a,{language:"apache",code:`<Directory "C:/xampp/phpMyAdmin">
+    AllowOverride AuthConfig
+    Require local
+    ErrorDocument 403 /error/HTTP_FORBIDDEN.html
+</Directory>`}),e.jsxs("p",{children:[e.jsx("code",{children:"Require local"})," só aceita conexões da própria máquina (127.0.0.1). Reinicie o Apache."]}),e.jsx("h2",{children:"Trocar idioma para PT-BR"}),e.jsxs("p",{children:["No canto superior direito da tela inicial, clique em"," ",e.jsx("em",{children:"Language"})," e escolha ",e.jsx("em",{children:"Português - Brasil"}),". Para deixar fixo:"]}),e.jsx(a,{title:"phpMyAdmin/config.inc.php",language:"php",code:`$cfg['Lang'] = 'pt_BR';
+$cfg['DefaultLang'] = 'pt_BR';`}),e.jsx("h2",{children:"Erros comuns no phpMyAdmin"}),e.jsxs("ul",{children:[e.jsxs("li",{children:[e.jsx("strong",{children:`"#1045 Access denied for user 'root'@'localhost'"`})," ","→ senha errada. Edite ",e.jsx("code",{children:"config.inc.php"})," ou redefina a senha do MariaDB (veja ",e.jsx("a",{href:"#/mysql-senha-root",children:"Senha do root"}),")."]}),e.jsxs("li",{children:[e.jsx("strong",{children:'"The mbstring extension is missing"'})," → habilite"," ",e.jsx("code",{children:"extension=mbstring"})," no ",e.jsx("code",{children:"php.ini"}),"."]}),e.jsxs("li",{children:[e.jsx("strong",{children:'"Cannot start session"'})," → permissão na pasta de sessão (",e.jsx("code",{children:"tmp/"}),") ou tema do phpMyAdmin quebrado."]}),e.jsxs("li",{children:[e.jsx("strong",{children:'"Wrong permissions on configuration file"'})," (Linux) → ",e.jsx("code",{children:"chmod 644 phpMyAdmin/config.inc.php"}),"."]})]}),e.jsx(o,{type:"success",title:"Próximos passos",children:e.jsxs("ul",{children:[e.jsx("li",{children:e.jsx("a",{href:"#/mysql-senha-root",children:"Trocar/recuperar a senha do root"})}),e.jsx("li",{children:e.jsx("a",{href:"#/mysql-backup",children:"Backup e restore com mysqldump"})}),e.jsx("li",{children:e.jsx("a",{href:"#/seguranca",children:"Hardening completo"})})]})})]})}export{h as default};
