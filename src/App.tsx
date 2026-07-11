@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from "react";
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { useHashLocation } from "wouter/use-hash-location";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
