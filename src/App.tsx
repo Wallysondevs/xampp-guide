@@ -157,7 +157,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Router hook={useHashLocation}>
+        <WouterRouter hook={useHashLocation}>
           <ScrollToTop />
           <div className="min-h-screen bg-[#0f0a03] text-white">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
@@ -169,7 +169,7 @@ function App() {
             </div>
             <LessonNav />
           </div>
-        </Router>
+        </WouterRouter>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
