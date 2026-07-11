@@ -1,216 +1,121 @@
-import { Link } from "wouter";
-import { useHashLocation } from "wouter/use-hash-location";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import {
-  BookOpen, Server, X, Package, FolderOpen, Database,
-  Globe, ChevronRight, Settings, Layers, HardDrive,
-  Zap, AlertTriangle, FileCode, Lock, Mail, ShieldAlert,
-  GitCompare, Terminal, Key, Bug, Save, Rocket,
-  PanelTop, FileText, Wrench, Award, Activity, Gauge,
-  Replace, Users, BarChart3, Clock, Network, Shield,
-  TestTube, ScrollText, Upload, Coffee,
-} from "lucide-react";
-
-const NAVIGATION = [
-  {
-    title: "🚀 Comece Aqui",
-    items: [
-      { path: "/", label: "Início", icon: BookOpen },
-      { path: "/o-que-e-xampp", label: "O que é XAMPP", icon: Server },
-      { path: "/comparacao", label: "XAMPP vs WAMP/MAMP/Laragon", icon: GitCompare },
-    ],
-  },
-  {
-    title: "Instalação",
-    items: [
-      { path: "/instalacao-windows", label: "Windows", icon: HardDrive },
-      { path: "/instalacao-linux", label: "Linux", icon: HardDrive },
-      { path: "/instalacao-macos", label: "macOS", icon: HardDrive },
-      { path: "/estrutura-pastas", label: "Pastas e htdocs", icon: FolderOpen },
-    ],
-  },
-  {
-    title: "Painel & Serviços",
-    items: [
-      { path: "/painel-controle", label: "Painel de Controle", icon: PanelTop },
-      { path: "/portas-conflitos", label: "Conflitos de portas", icon: AlertTriangle },
-    ],
-  },
-  {
-    title: "Apache — Básico",
-    items: [
-      { path: "/apache-config", label: "httpd.conf", icon: Settings },
-      { path: "/virtual-hosts", label: "Virtual Hosts", icon: Globe },
-      { path: "/htaccess", label: ".htaccess", icon: FileCode },
-      { path: "/ssl-local", label: "HTTPS local (SSL)", icon: Lock },
-      { path: "/apache-modulos", label: "Módulos do Apache", icon: Layers },
-    ],
-  },
-  {
-    title: "Apache — Avançado",
-    items: [
-      { path: "/apache-rewrite", label: "mod_rewrite avançado", icon: Replace },
-      { path: "/apache-logs", label: "Logs e LogFormat", icon: ScrollText },
-      { path: "/apache-auth", label: "Autenticação básica", icon: Key },
-      { path: "/apache-mpms", label: "MPMs (prefork/worker)", icon: Layers },
-      { path: "/apache-reverse-proxy", label: "Reverse proxy", icon: Network },
-      { path: "/apache-headers", label: "mod_headers", icon: FileText },
-      { path: "/apache-status", label: "mod_status", icon: Activity },
-      { path: "/apache-benchmark", label: "ApacheBench (ab)", icon: Gauge },
-    ],
-  },
-  {
-    title: "PHP — Básico",
-    items: [
-      { path: "/php-ini", label: "php.ini", icon: Settings },
-      { path: "/php-extensoes", label: "Extensões", icon: Package },
-      { path: "/php-versoes", label: "Trocar versão", icon: Zap },
-      { path: "/composer", label: "Composer", icon: Package },
-      { path: "/xdebug", label: "Xdebug", icon: Bug },
-    ],
-  },
-  {
-    title: "PHP — Avançado",
-    items: [
-      { path: "/php-cli", label: "PHP via linha de comando", icon: Terminal },
-      { path: "/php-fpm", label: "PHP-FPM", icon: Server },
-      { path: "/php-unit", label: "PHPUnit (testes)", icon: TestTube },
-      { path: "/php-debug-log", label: "Logs e error_log", icon: ScrollText },
-    ],
-  },
-  {
-    title: "MySQL / MariaDB",
-    items: [
-      { path: "/mysql-config", label: "my.ini", icon: Settings },
-      { path: "/phpmyadmin", label: "phpMyAdmin", icon: Database },
-      { path: "/mysql-senha-root", label: "Senha do root", icon: Key },
-      { path: "/mysql-backup", label: "Backup & Restore", icon: Save },
-      { path: "/mariadb-usuarios", label: "Usuários e GRANT", icon: Users },
-      { path: "/mariadb-queries", label: "Queries essenciais", icon: Database },
-      { path: "/mariadb-procedures", label: "Procedures & Triggers", icon: FileCode },
-      { path: "/mariadb-performance", label: "Performance & EXPLAIN", icon: Gauge },
-      { path: "/mariadb-replicacao", label: "Replicação master/slave", icon: BarChart3 },
-    ],
-  },
-  {
-    title: "Perl & Outros Serviços",
-    items: [
-      { path: "/perl-cgi", label: "Perl CGI", icon: Terminal },
-      { path: "/perl-modulos", label: "Módulos Perl (CPAN)", icon: Package },
-      { path: "/tomcat", label: "Tomcat (Java)", icon: Coffee },
-      { path: "/filezilla", label: "FileZilla FTP", icon: Upload },
-      { path: "/webalizer", label: "Webalizer", icon: BarChart3 },
-    ],
-  },
-  {
-    title: "Email & Aplicações",
-    items: [
-      { path: "/mercury", label: "Mercury Mail", icon: Mail },
-      { path: "/wordpress", label: "WordPress", icon: Globe },
-      { path: "/laravel", label: "Laravel", icon: Terminal },
-    ],
-  },
-  {
-    title: "Workflow & Operação",
-    items: [
-      { path: "/cron-xampp", label: "Cron / Tarefas agendadas", icon: Clock },
-      { path: "/multi-site", label: "Múltiplos sites locais", icon: Layers },
-      { path: "/modsecurity", label: "ModSecurity (WAF)", icon: Shield },
-    ],
-  },
-  {
-    title: "Produção & Manutenção",
-    items: [
-      { path: "/migrar-producao", label: "Migrar para produção", icon: Rocket },
-      { path: "/seguranca", label: "Segurança", icon: ShieldAlert },
-      { path: "/erros-comuns", label: "Erros comuns", icon: Wrench },
-      { path: "/backup-completo", label: "Backup completo", icon: Save },
-    ],
-  },
-];
+import { COURSE_MODULES, getProgress } from "@/lib/course";
+import { X, ChevronRight, CheckCircle2, Circle } from "lucide-react";
 
 interface SidebarProps {
   isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
+  setIsOpen: (v: boolean) => void;
 }
 
 export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
-  const [location] = useHashLocation();
+  const [location] = useLocation();
+  const [completed, setCompleted] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    setCompleted(getProgress());
+  }, [location]);
 
   return (
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       <aside
         className={cn(
-          "fixed left-0 top-0 h-full w-72 bg-card border-r border-border z-50 overflow-y-auto transition-transform duration-300",
-          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
+          "fixed top-0 bottom-0 left-0 z-50 w-72 bg-gradient-to-b from-[#1a1407] to-[#0f0a03] border-r border-orange-500/20 transition-transform duration-300 ease-in-out lg:translate-x-0 overflow-y-auto",
+          isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="flex items-center justify-between p-4 border-b border-border sticky top-0 bg-card z-10">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-extrabold text-lg leading-none">
-              X
-            </div>
-            <div>
-              <h1 className="font-bold text-sm leading-tight">XAMPP</h1>
-              <p className="text-xs text-muted-foreground">Guia Completo PT-BR</p>
-            </div>
-          </Link>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="lg:hidden p-1 rounded hover:bg-accent"
-          >
-            <X className="w-4 h-4" />
-          </button>
+        {/* Brand */}
+        <div className="sticky top-0 z-10 px-5 pt-5 pb-3 bg-gradient-to-b from-[#1a1407] to-[#1a1407]/95 backdrop-blur-sm border-b border-orange-500/20">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="w-10 h-10 rounded-lg bg-orange-500 border border-orange-400 flex items-center justify-center shadow-lg shadow-orange-500/30">
+                <span className="text-xl font-black text-white">X</span>
+              </div>
+              <div>
+                <h1 className="text-lg font-bold text-white tracking-tight">XAMPP Guide</h1>
+                <p className="text-[10px] text-gray-400 uppercase tracking-wider">Guia completo</p>
+              </div>
+            </Link>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-orange-500/10 lg:hidden"
+              aria-label="Fechar menu"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
-        <nav className="p-3 space-y-4">
-          {NAVIGATION.map((section) => (
-            <div key={section.title}>
-              <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-2 mb-1">
-                {section.title}
-              </h2>
-              <ul className="space-y-0.5">
-                {section.items.map((item) => {
-                  const isActive = location === item.path;
-                  const Icon = item.icon;
-                  return (
-                    <li key={item.path}>
-                      <Link
-                        href={item.path}
-                        className={cn(
-                          "flex items-center gap-2 px-2 py-1.5 rounded-md text-sm transition-colors",
-                          isActive
-                            ? "bg-primary text-primary-foreground font-medium"
-                            : "text-muted-foreground hover:text-foreground hover:bg-accent",
-                        )}
-                        onClick={() => setIsOpen(false)}
-                      >
-                        <Icon className="w-4 h-4 flex-shrink-0" />
-                        <span className="flex-1 leading-tight">{item.label}</span>
-                        {isActive && <ChevronRight className="w-3 h-3" />}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))}
+        {/* Navegação */}
+        <nav className="p-3 space-y-1">
+          {COURSE_MODULES.map((section) => {
+            const sectionDone = section.lessons.filter((l) => completed.has(l.id)).length;
+            const sectionTotal = section.lessons.length;
+
+            return (
+              <div key={section.id}>
+                <div className="flex items-center justify-between px-2.5 py-1.5 mb-1">
+                  <h4 className="text-[10px] font-bold text-gray-400/70 uppercase tracking-[0.12em]">
+                    {section.title}
+                  </h4>
+                  <span className="text-[10px] font-mono text-gray-500">
+                    {sectionDone}/{sectionTotal}
+                  </span>
+                </div>
+                <ul className="space-y-0.5 list-none pl-0">
+                  {section.lessons.map((item) => {
+                    const isActive = location === item.path;
+                    const isCompleted = completed.has(item.id);
+
+                    return (
+                      <li key={item.id}>
+                        <Link
+                          href={item.path}
+                          onClick={() => setIsOpen(false)}
+                          className={cn(
+                            "relative flex items-center gap-2 px-2.5 py-1.5 rounded-md text-[13px] transition-all duration-150",
+                            isActive
+                              ? "bg-orange-500/20 text-orange-400 font-semibold"
+                              : isCompleted
+                              ? "text-orange-400/80 hover:bg-[#1a1407]/50"
+                              : "text-gray-300 hover:bg-[#1a1407]/50 hover:text-white"
+                          )}
+                        >
+                          {isActive && (
+                            <span className="absolute left-0 top-1.5 bottom-1.5 w-0.5 rounded-r bg-orange-500" />
+                          )}
+                          {isCompleted ? (
+                            <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-orange-400" strokeWidth={2.5} />
+                          ) : (
+                            <Circle className="w-3.5 h-3.5 shrink-0 opacity-30" />
+                          )}
+                          <span className="truncate">{item.title}</span>
+                          {isActive && <ChevronRight className="w-3 h-3 ml-auto text-orange-400 shrink-0" />}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          })}
         </nav>
 
-        <div className="p-4 border-t border-border mt-4">
-          <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1">
-            <Award className="w-3 h-3" /> 55 tópicos
-          </p>
-          <p className="text-xs text-muted-foreground text-center mt-1">
-            Apache · MariaDB · PHP · Perl
-          </p>
+        {/* Footer */}
+        <div className="p-4 border-t border-orange-500/20 mt-4">
+          <div className="text-[10px] uppercase tracking-wider font-mono text-gray-400 mb-1">
+            Versão
+          </div>
+          <div className="text-sm font-bold text-white">XAMPP 8.2.12</div>
+          <div className="text-[11px] text-gray-500 mt-1">Apache + MariaDB + PHP + Perl</div>
         </div>
       </aside>
     </>

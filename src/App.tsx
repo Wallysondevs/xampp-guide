@@ -1,11 +1,12 @@
-import { lazy, Suspense, useEffect, useState } from "react";
-import { Switch, Route, Router, useLocation } from "wouter";
+import { useState, useEffect } from "react";
+import { Switch, Route, Router as WouterRouter } from "wouter";
 import { useHashLocation } from "wouter/use-hash-location";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
+import { LessonNav } from "@/components/ui/LessonNav";
 import Home from "@/pages/Home";
 
 const NotFound = lazy(() => import("@/pages/not-found"));
@@ -158,14 +159,15 @@ function App() {
       <TooltipProvider>
         <Router hook={useHashLocation}>
           <ScrollToTop />
-          <div className="min-h-screen bg-background text-foreground">
+          <div className="min-h-screen bg-[#0f0a03] text-white">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
             <div className="lg:pl-72">
               <Header onMenuClick={() => setSidebarOpen(true)} />
-              <main>
+              <main className="pb-16">
                 <AppRouter />
               </main>
             </div>
+            <LessonNav />
           </div>
         </Router>
         <Toaster />
